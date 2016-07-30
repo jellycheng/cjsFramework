@@ -8,7 +8,6 @@
             "email": "42282367@qq.com"
         }
     ],
-    "minimum-stability": "dev",
     "require": {
         "php": ">=5.4.0",
         "ext-openssl": "*",
@@ -18,7 +17,8 @@
         "cjs/support":"dev-master",
         "cjs/pay":"dev-master",
         "illuminate/database":"5.0.*",
-        "vlucas/phpdotenv": "2.*"
+        "vlucas/phpdotenv": "2.*",
+        "monolog/monolog": "1.*"
     },
     "autoload": {
         "classmap": [
