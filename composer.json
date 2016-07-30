@@ -1,0 +1,34 @@
+{
+    "name": "cjs/Framework",
+    "description": "The cjs Framework package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jelly",
+            "email": "42282367@qq.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.4.0",
+        "ext-openssl": "*",
+        "ext-mcrypt": "*",
+        "ext-mbstring": "*",
+        "psr/log": "~1.0",
+        "cjs/support":"dev-master",
+        "cjs/pay":"dev-master",
+        "illuminate/database":"5.0.*",
+        "vlucas/phpdotenv": "2.*"
+    },
+    "autoload": {
+        "classmap": [
+
+        ],
+        "files": [
+            "src/Helpers.php"
+        ],
+        "psr-4": {
+            "CjsFramework\\": "src/"
+        }
+    }
+}
