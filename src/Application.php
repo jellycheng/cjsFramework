@@ -109,7 +109,7 @@ class Application {
      */
     public function databasePath()
     {
-        return $this->basePath.'App'.DIRECTORY_SEPARATOR.'Config'.DIRECTORY_SEPARATOR.'database'.DIRECTORY_SEPARATOR;
+        return $this->basePath.'App'.DIRECTORY_SEPARATOR.'Config'.DIRECTORY_SEPARATOR.'Database'.DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -119,7 +119,7 @@ class Application {
      */
     public function langPath()
     {
-        return $this->basePath.'App'.DIRECTORY_SEPARATOR.'resources'.DIRECTORY_SEPARATOR.'lang'.DIRECTORY_SEPARATOR;
+        return $this->basePath.'App'.DIRECTORY_SEPARATOR.'Resources'.DIRECTORY_SEPARATOR.'Lang'.DIRECTORY_SEPARATOR;
     }
 
     /**
@@ -139,7 +139,7 @@ class Application {
      */
     public function storagePath()
     {
-        return $this->storagePath ?: $this->basePath.'App'.DIRECTORY_SEPARATOR.'storage'.DIRECTORY_SEPARATOR;
+        return $this->storagePath ?: $this->basePath.'App'.DIRECTORY_SEPARATOR.'Storage'.DIRECTORY_SEPARATOR;
     }
 
     public function setStoragePath($path)
