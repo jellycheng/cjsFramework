@@ -19,4 +19,29 @@ class Controller
 
     }
 
+    public function getgpc($k, $var='G', $default = NULL) {
+        switch($var) {
+            case 'G': $var = &$_GET; break;
+            case 'P': $var = &$_POST; break;
+            case 'C': $var = &$_COOKIE; break;
+            case 'R': $var = &$_REQUEST; break;
+        }
+        return isset($var[$k]) ? $var[$k] : $default;
+    }
+
+    /**
+     * 获取指定的请求头值
+     * @param $key
+     */
+    public function getHeader($key) {
+        $key = strtoupper('HTTP_' . $key);
+        $v = isset($_SERVER[$key])?$_SERVER[$key]:null;
+        return $v;
+    }
+
+
+
+
+
+
 }
