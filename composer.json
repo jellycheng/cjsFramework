@@ -30,5 +30,13 @@
         "psr-4": {
             "CjsFramework\\": "src/"
         }
+    },
+    "scripts": {
+        "post-update-cmd": [
+            "find vendor/ -name .git | xargs rm -rf"
+        ],
+        "post-install-cmd": [
+            "find vendor/ -name .git | xargs rm -rf"
+        ]
     }
 }
