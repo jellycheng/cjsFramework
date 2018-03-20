@@ -14,7 +14,7 @@
         "ext-mcrypt": "*",
         "ext-mbstring": "*",
         "psr/log": "~1.0",
-        "cjs/support":"dev-master",
+        "cjs/support":"^1.0.0",
         "cjs/pay":"dev-master",
         "illuminate/database":"5.0.*",
         "vlucas/phpdotenv": "2.*",
