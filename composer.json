@@ -1,5 +1,6 @@
 {
     "name": "cjs/framework",
+    "type": "project",
     "description": "The cjs Framework package",
     "license": "MIT",
     "authors": [
@@ -8,29 +9,45 @@
             "email": "42282367@qq.com"
         }
     ],
+    "keywords": [
+        "framework",
+        "niaocms",
+        "nfangbian"
+    ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.6.0",
         "ext-openssl": "*",
         "ext-mcrypt": "*",
         "ext-mbstring": "*",
-        "psr/log": "~1.0",
-        "cjs/support":"^1.0.0",
-        "cjs/pay":"dev-master",
-        "illuminate/database":"5.0.*",
-        "vlucas/phpdotenv": "2.*",
-        "monolog/monolog": "1.*"
+        "cjs/env": "^1.0.0",
+        "cjs/redis":"dev-master",
+        "webpatser/laravel-uuid": "2.*",
+        "cjs/simple-route": "^1.0.0",
+        "cjs/simpleprotocol":"dev-master",
+        "cjs/curl": "^1.0.0",
+        "cjs/console": "^1.0.0",
+        "cjs/support":"dev-master",
+        "cjs/lsf":"dev-master",
+        "cjs/token":"dev-master",
+        "cjs/exception": "dev-master",
+        "illuminate/validation": "5.5.*",
+        "illuminate/database":"5.5.*",
+        "illuminate/events": "5.5.*",
+        "monolog/monolog": "^1.16"
     },
     "autoload": {
         "classmap": [
 
         ],
         "files": [
-            "src/Helpers.php"
+            "app/Util/Helpers.php"
         ],
         "psr-4": {
-            "CjsFramework\\": "src/"
+            "App\\": "app/"
         }
     },
+    "prefer-stable": true,
+    "minimum-stability": "dev",
     "scripts": {
         "post-update-cmd": [
             "find vendor/ -name .git | xargs rm -rf"

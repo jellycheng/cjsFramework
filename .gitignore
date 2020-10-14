@@ -3,5 +3,11 @@
 composer.lock
 vendor/
 phpunit.xml
+*.log
+.idea
+.vscode
+.buildpath
+.project
+.settings
 
 
