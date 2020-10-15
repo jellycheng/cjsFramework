@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+/**
+ * php artisan schedule:run 1>> /dev/null 2>&1
+ *
+ * 配置crontab：
+ * * * * * * /usr/local/bin/php /代码部署目录/artisan schedule:run 1>> /dev/null 2>&1
+ */
+
+require_once __DIR__ . '/bootstrap/artisan_autoload.php';
+$consoleCfgObj = \CjsConsole\ConsoleConfig::getInstance()->setEnvironments(env('APP_ENV', 'prod'))->setDebug(true);
+$consoleCfgObj->setCrontabEntryPath(__DIR__ . '/')->setPrefixArtisan(__DIR__ ."/artisan ");
+
+$input = new \CjsConsole\Input\ArgvInput();
+$ConsoleObj = \CjsConsole\ConsoleApp::getInstance("cjs console", '1.0.0');
+$kernel = new \App\Console\Kernel($ConsoleObj);
+
+$scheduleObj = new \CjsConsole\Scheduling\ScheduleRunCommand($ConsoleObj->getSchedule());
+$ConsoleObj->add($scheduleObj);
+
+$status = $kernel->handle($input, new \CjsConsole\Output\ConsoleOutput());
+$kernel->terminate($input, $status);
+exit($status);
+

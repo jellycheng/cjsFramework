@@ -5,7 +5,7 @@
 namespace App\Controllers;
 
 use App\Enum\ExceptionCodeEnum;
-use CjsException\BaseException as ServiceException;
+use App\Exceptions\ServiceException;
 use Log;
 
 class LoginBase extends Base

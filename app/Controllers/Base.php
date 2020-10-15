@@ -2,14 +2,14 @@
 namespace App\Controllers;
 
 use App\Enum\ExceptionCodeEnum;
-use CjsException\BaseException as ServiceException;
+use App\Exceptions\ServiceException;
+use \CjsProtocol\ApiResponse;
 use Log;
 
-abstract class Base
-{
+abstract class Base {
 
-    const STATUS_SUCCESS = 0;
     protected $userLoginToken = '';
+
     public function __construct() {
 
     }
@@ -26,51 +26,30 @@ abstract class Base
      */
     protected function response($code, $msg = '', $data = '', $method = '')
     {
-        if(defined('REQUEST_TRACE_ID')){
-            $trace = REQUEST_TRACE_ID;
-        } else {
-            $trace = '';
-        }
-        $result =  [
-            'code' => $code,
-            'msg' => $msg,
-            'data' => $data,
-            'trace_id' =>$trace
-        ];
-        header("trace-id: $trace");
         if(!$method) {
             $method = __METHOD__;
         }
-        Log::debug( $method . "接口出参:",$result);
+        $obj = ApiResponse::getInstance()->setCode($code)->setMsg($msg)->setData($data);
+        header("x-trace-id: " . $obj->getTraceId());
+        $result = $obj->toArray();
+        Log::debug($method . "接口出参:", $result);
         return $result;
     }
 
     /**
      * 正确返回信息
-     *
-     * @author chengjinsheng
-     * @date 2016-10-11
-     * @param array $data option 返回数据
-     * @return array
      */
     protected function responseSuccess($data = null, $method = '')
     {
-        return $this->response(self::STATUS_SUCCESS, 'success', $data, $method);
+        return $this->response(ExceptionCodeEnum::SUCCESS, 'success', $data, $method);
     }
 
     /**
      * 错误返回信息
-     *
-     * @author chengjinsheng
-     * @date 2016-10-11
-     * @param string $code required 错误码
-     * @param string $msg option 错误信息
-     * @param array $data option 返回数据
-     * @return array
      */
     protected function responseError($code, $msg = 'fail', $data = null, $method = '')
     {
-        if ($code == '0') {                         //php抛出异常码为0
+        if ($code == '0') {
             Log::error(__METHOD__.'错误返回异常', [$code, $msg]);
             $code = '10000000';
             $msg = '系统异常';
@@ -80,7 +59,7 @@ abstract class Base
 
 
     /**
-     * RPC请求参数校验
+     * 请求参数校验
      *
      * @author chengjinsheng
      * @date 2016-10-11
@@ -105,7 +84,7 @@ abstract class Base
                 }
                 break;
             }
-            if (ServiceException::code($msg)) {
+            if (ServiceException::checkCodeKeyExists($msg)) {
                 throw new ServiceException($msg);
             } else {
                 throw new ServiceException($msg, ExceptionCodeEnum::INVALID_ARGUMENT);
@@ -128,9 +107,6 @@ abstract class Base
 
     /**
      * Controller异常日志方法
-     *
-     * Controller中记录日志方法，默认error
-     *
      * @author chengjinsheng
      * @date 2016-10-11
      * @param string $tips  日志信息
@@ -147,8 +123,6 @@ abstract class Base
 
     /**
      * 正常info日志
-     *
-     * Controller中记录日志方法，只用info,debug,warning,error四种不同级别的方法，按需使用，切勿修改
      *
      * @author chengjinsheng
      * @date 2016-10-18
@@ -167,8 +141,6 @@ abstract class Base
     /**
      * debug日志
      *
-     * Controller中记录日志方法，只用info,debug,warning,error四种不同级别的方法，按需使用，切勿修改
-     *
      * @author chengjinsheng
      * @date 2016-10-18
      * @param string $tips required 日志信息
@@ -186,8 +158,6 @@ abstract class Base
     /**
      * warning日志
      *
-     * Controller中记录日志方法，只用info,debug,warning,error四种不同级别的方法，按需使用，切勿修改
-     *
      * @author chengjinsheng
      * @date 2016-10-18
      * @param string $tips required 日志信息
@@ -204,8 +174,6 @@ abstract class Base
 
     /**
      * error日志
-     *
-     * Controller中记录日志方法，只用info,debug,warning,error四种不同级别的方法，按需使用，切勿修改
      *
      * @author chengjinsheng
      * @date 2016-10-18
@@ -226,9 +194,10 @@ abstract class Base
      * 调用示例：
      * try {
      *    $this->denyProductionExec();//禁止生产环境执行
+     *
      * } catch (ServiceException $e) {
-     *   self::logError('onlydevopen Exception', $e->getCode(), $e->getMessage()); //错误日
-     *   return $this->responseError($e->getErrno(), $e->getMessage(), null); //错误信息返回
+     *   self::logError('onlydevopen Exception', $e->getCode(), $e->getMessage());
+     *   return $this->responseError($e->getCode(), $e->getMessage(), null);
      * }
      */
     protected function denyProductionExec() {
@@ -243,9 +212,10 @@ abstract class Base
      * 调用示例：
      * try {
      *    $this->onlyDevOpen();//仅开放dev环境调用
+     *
      * } catch (ServiceException $e) {
-     *   self::logError('onlydevopen Exception', $e->getCode(), $e->getMessage()); //错误日
-     *   return $this->responseError($e->getErrno(), $e->getMessage(), null); //错误信息返回
+     *   self::logError('onlydevopen Exception', $e->getCode(), $e->getMessage());
+     *   return $this->responseError($e->getCode(), $e->getMessage(), null);
      * }
      */
     protected function onlyDevOpen() {

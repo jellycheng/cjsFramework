@@ -11,8 +11,9 @@ if (file_exists(App::basePath() . '/.env')) {
 }
 
 define('REQUEST_TRACE_ID', Webpatser\Uuid\Uuid::generate()->__toString());
-
+\CjsProtocol\ApiResponse::getInstance()->setTraceId(REQUEST_TRACE_ID);
 App::setConfigPath(App::appPath() . '/Config/');
+App\Exceptions\ServiceException::initExceptionConfig(App::configPath('exception.php'));
 Config::loadPhp(App::configPath('app.php'), 'app');
 Config::loadPhp(App::configPath('db.php'), 'db');
 Config::loadPhp(App::configPath('log.php'), 'log');
